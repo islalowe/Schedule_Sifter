@@ -5,6 +5,7 @@ from modules.schedule import Schedule
 from modules.comparer import Comparer
 from datetime import datetime, time, timedelta
 
+
 # today = datetime.today().date()
 
 event1 = Event("Meeting",123,
@@ -47,7 +48,7 @@ s2 = Schedule([event6, event7, event8, event9, event10])
 
 # Instantiate comparer and compare
 comparer = Comparer()
-common_free = comparer.CompareTwoSchedules(s1, s2, range=3, size=1)
+common_free = comparer.CompareTwoSchedules(s1, s2, 3, 1)
 
 # Show results
 for interval in common_free:
