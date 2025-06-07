@@ -10,7 +10,6 @@ class Comparer:
         pass
 
 
-
     # This method compares two given schedules and returns a list of common free TimeInterval objects.
     # todo should the schedules be sorted? would the events ever get out of order?
     def CompareTwoSchedules(self, s1, s2, days_to_check = 7, min_hours = 1):
@@ -42,58 +41,86 @@ class Comparer:
         return common_free_time    
 
 
-
+    #todo update eod, hour, and prev_interval_end_time
     def CompareTwoForOneDay(self, s1, s2, min_hours: int, day: int):
-            hour = 0
-            prev_interval_end_time = 0
-            today = date.today()
-            # Instantiate a TimeInterval with start and end times at 00
-            target_date = today + timedelta(days=day)
-            free_time_interval = TimeInterval(time(0, 0), time(0, 0), target_date)
-            # This holds comparison results for one day only
-            day_common_free_time: List[TimeInterval] = []
+        TODAY = date.today()
+        # Instantiate a TimeInterval with start and end times at 00
+        target_date = TODAY + timedelta(days=day)
+        free_time_interval = TimeInterval(time(0, 0), time(0, 0), target_date)
 
-            s1_curr_event_tracker = 0
-            s2_curr_event_tracker = 0
-            # Start with the first events
-            s1.curr_event = s1.days_list[s1_curr_event_tracker]
-            s2.curr_event = s2.days_list[s2_curr_event_tracker]
+        hour = datetime.combine(target_date, time(0, 0))
+        END_OF_DAY = datetime.combine(target_date, time(23, 59))
+        prev_interval_end_time = time(0,0)
 
-            while hour < 24:
-                # todo check to see what happens if events start and end on the same hour mark
-                # If an event starts, free time ends.
-                if (s1.curr_event.start == hour or s2.curr_event.start == hour):
-                    # update curr event tracker
-                    if (s1.curr_event.start == hour):
-                        s1_curr_event_tracker += 1
-                    else: 
-                        s2_curr_event_tracker += 1
-                    # Make sure the time interval passes the minimum hours threshold
-                    if (free_time_interval.end - free_time_interval.start >= min_hours):
-                        # Send the completed interval
-                        day_common_free_time.extend(free_time_interval)
+        # This holds one-day-only comparison results 
+        day_common_free_time: List[TimeInterval] = []
 
-                        # Now, we are in the middle of an event. Time passes until *both* schedules have no running events.
-                        # This loop ends once both schedule's current events end.
-                        end_time = max(s1.curr_event.end, s2.curr_event.end)
-                        while hour < end_time:    # Hour climbs from 0 to 24
-                            hour += 1
+        s1_curr_event_tracker = 0
+        s2_curr_event_tracker = 0
+        # Start with the first events
+        s1.curr_event = s1.days_list[s1_curr_event_tracker]
+        s2.curr_event = s2.days_list[s2_curr_event_tracker]
 
-                        # Now, the event ended for both. Free time may resume.
-                        prev_interval_end_time = hour
-                        free_time_interval.start = hour
-                    
-                # If an event has not started this hour, The free time interval does not end
-                # so we increment the end of the free time interval by 1 hour
-                else:
-                    # Convert to datetime
-                    dt = datetime.combine(target_date, free_time_interval.end)
-                    # Add 1 hour 
-                    dt += timedelta(hours=1)
-                    # Set it back
-                    free_time_interval.end = dt.time()
-                hour += 1   # Either way, an hour passes.
-            return day_common_free_time
+        while hour < END_OF_DAY:
+            # todo check to see what happens if events start and end on the same hour mark
+            # Accruing free time, and when an event starts, free time ends.
+            # if (s1.curr_event.starts now or s2.curr_event starts now):
+            if (s1.curr_event.start == hour or s2.curr_event.start == hour):
+                # update curr event tracker
+                if (s1.curr_event.start == hour):
+                    s1_curr_event_tracker += 1
+                else: 
+                    s2_curr_event_tracker += 1
+                # Make sure the time interval passes the minimum hours threshold
+                if (self.CheckMinHours(free_time_interval, min_hours)):
+                    # Send the completed interval
+                    day_common_free_time.append(free_time_interval)
+
+                # Now, we are in the middle of an event. Time passes until *both* schedules have no running events.
+                # This loop ends once both schedule's current events end.
+                end_time = max(s1.curr_event.end, s2.curr_event.end)
+
+                while hour < end_time:    # Hour increases as time passes until the last event ends
+                    hour = self.AddHour(target_date, hour.time())
+
+                # Now, the event ended for both. Free time may resume.
+                prev_interval_end_time = hour
+                new_interval_start_time = hour
+                
+            # If an event has not started this hour, The free time interval does not end
+            # so we increment the end of the free time interval by 1 hour
+            else:
+                free_time_interval.end = self.AddHour(target_date, free_time_interval.time())
+            hour = self.AddHour(target_date, hour.time())   # Either way, an hour passes. 
+        return day_common_free_time
+
+
+    # Helper method to be able to compare time of events to hour increments in a 24 hour day.
+    def ConvertToDateTime(self, d: date, t: time) -> datetime:
+        return datetime.combine(d, t)
+    
+
+    # Helper method to be check whether a time interval passses the minimum length to be added to results.
+    def CheckMinHours(self, free_time_interval, min_hours):
+        dt_start = datetime.combine(free_time_interval.date, free_time_interval.start)
+        dt_end = datetime.combine(free_time_interval.date, free_time_interval.end)
+        duration = dt_end - dt_start
+        if duration >= timedelta(hours=min_hours):
+            return True
+        return False
+    
+
+    # Helper method to add an hour to the datetime object
+    # datetime.time does not support arithmetic with timedelta. Only datetime.datetime does.
+    def AddHour(self, target_date, og_time):
+        return_val = datetime.combine(target_date, og_time)
+        return_val += timedelta(hours=1)
+        return_val = return_val.time()
+        return return_val
+
+
+
+
 
 
 

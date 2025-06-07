@@ -46,9 +46,21 @@ event10 = Event("Class", 543,
 s1 = Schedule([event1, event2, event3, event4, event5])
 s2 = Schedule([event6, event7, event8, event9, event10])
 
+# checking schedule contents
+print("Schedule 1:")
+for event in s1.days_list:
+    print(event)
+
+print("\nSchedule 2:")
+for event in s2.days_list:
+    print(event)
+
+
 # Instantiate comparer and compare
 comparer = Comparer()
 common_free = comparer.CompareTwoSchedules(s1, s2, 3, 1)
+
+print(f"Found {len(common_free)} common intervals.")
 
 # Show results
 for interval in common_free:
