@@ -83,10 +83,11 @@ for event in s2.days_list:
 
 # Instantiate comparer and compare
 comparer = Comparer()
-common_free = comparer.CompareTwoSchedules(s1, s2, 3, 1)
+common_free = comparer.compare_two_schedules(s1, s2, 3, 1)
 
 print(f"Found {len(common_free)} common intervals.")
 
 # Show results
+print("Here are the final results of the comparison:")
 for interval in common_free:
     print(f"{interval.date} — {interval.start} to {interval.end}")

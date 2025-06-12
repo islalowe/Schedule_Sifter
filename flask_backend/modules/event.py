@@ -14,12 +14,7 @@ class Event:
         def get_event(self):
             return self
 
-        # Getter for start of the event
-        #todo maybe the is unecessary?
-        def get_event_start(self):
-            return self.start
-        
-        # Getter for end of the event
-            return self.end
+        def __repr__(self):
+            return f"Event({self.name}, {self.start}, {self.end})"
 
 
