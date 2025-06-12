@@ -1,6 +1,6 @@
 # The Person class represents individual users, and maintains their schedules and profiles.
 
-from modules.schedule import Schedule
+from flask_backend.modules.schedule import Schedule
 
 class Person:
     def __init__(self, name: str, schedule: Schedule):
