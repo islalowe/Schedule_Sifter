@@ -2,7 +2,7 @@
 
 from flask_backend.modules.schedule import Schedule
 
-class Person:
+class User:
     def __init__(self, name: str, schedule: Schedule):
         self.name = name
         self.schedule = schedule
