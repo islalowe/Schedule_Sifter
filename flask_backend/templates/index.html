@@ -1,0 +1,37 @@
+<!-- flask_backend/templates/index.html -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Schedule Sifter — Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <h1>Schedule Sifter</h1>
+    <p class="muted">Paste JSON for two schedules, set parameters, then compare.</p>
+
+    <div class="grid">
+      <div>
+        <label>Schedule 1 JSON</label>
+        <textarea id="sched1"></textarea>
+      </div>
+      <div>
+        <label>Schedule 2 JSON</label>
+        <textarea id="sched2"></textarea>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label>Number of days to check <input id="minDays" type="number" value="2" min="1"></label>
+      <label>Granularity (hours) <input id="granularity" type="number" value="1" min="1"></label>
+      <button id="compareBtn">Compare</button>
+      <button id="loadExample">Load example</button>
+    </div>
+
+    <div id="status" class="muted"></div>
+    <div id="results"></div>
+
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
