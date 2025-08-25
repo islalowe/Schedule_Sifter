@@ -58,7 +58,7 @@ class Comparer:
 
 
 
-    def compare_two_for_one_day(self, s1_day, s2_day, min_hours: int, target_date):
+    def compare_two_for_one_day(self, s1_day, s2_day, granularity_hours: int, target_date):
         """
         Compare two people's schedules for a specific day and return common free TimeIntervals.
         """
@@ -104,7 +104,7 @@ class Comparer:
                 # End current free interval
                     free_interval_end = curr_hour
                     interval = TimeInterval(free_interval_start, free_interval_end)
-                if self.check_min_hours(interval, min_hours):
+                if self.check_min_hours(interval, granularity_hours):
                     day_common_free_time.append(interval)
                 in_free_time = False
 
@@ -112,7 +112,7 @@ class Comparer:
          # If we ended the day in a free block, close it
         if in_free_time:
             interval = TimeInterval(free_interval_start, free_interval_end)
-        if self.check_min_hours(interval, min_hours):
+        if self.check_min_hours(interval, granularity_hours):
             day_common_free_time.append(interval)
 
         return day_common_free_time

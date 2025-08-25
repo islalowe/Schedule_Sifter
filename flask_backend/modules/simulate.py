@@ -10,7 +10,7 @@ from datetime import datetime, time, timedelta
 # today = datetime.today().date()
 
 event1 = Event("Meeting",123,
-    datetime.combine(datetime(2025, 8, 17).date(), time(9, 0)),
+    datetime.combine(datetime(2025, 9, 7).date(), time(9, 0)),
     datetime.combine(datetime(2025, 8, 17).date(), time(10, 0)))
 event2 = Event("Class", 234, 
     datetime.combine(datetime(2025, 8, 17).date(), time(11, 0)), 
@@ -84,7 +84,7 @@ for day in s2.days_list:
 
 # Instantiate comparer and compare
 comparer = Comparer()
-common_free = comparer.compare_two_schedules(s1, s2, 4, 1)
+common_free = comparer.compare_two_schedules(s1, s2, 7, 1)
 if common_free:
     print(f"Found {len(common_free)} common intervals.")
     # Show results
