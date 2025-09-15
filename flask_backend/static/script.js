@@ -1,26 +1,27 @@
 // flask_backend/static/script.js
-
 const $ = (id) => document.getElementById(id);
 
-const example = {
-  "schedule": [
-    {
-      "date": "2025-10-17",
-      "events": [
-        { "name": "Meeting", "eventId": 123, "start": "2025-10-17T09:00:00", "end": "2025-10-17T10:00:00" },
-        { "name": "Class",   "eventId": 234, "start": "2025-10-17T11:00:00", "end": "2025-10-17T15:00:00" }
-      ]
-    },
-    {
-      "date": "2025-10-18",
-      "events": [
-        { "name": "Class",   "eventId": 456, "start": "2025-10-18T10:00:00", "end": "2025-10-18T15:00:00" }
-      ]
-    }
-  ]
+$("showSchedules").onclick = () => {
+  const panel = $("schedulesPanel");
+  panel.classList.toggle("hidden");
+
+  // also toggle the raw JSON wrapper with the panel
+  const rawWrap = $("rawJsonWrap");
+  if (rawWrap) rawWrap.classList.toggle("hidden");
 };
 
 $("loadExample").onclick = () => {
+  const example = {
+    "schedule": [
+      {
+        "date": "2025-10-17",
+        "events": [
+          { "name": "Meeting", "eventId": 123, "start": "2025-10-17T09:00:00", "end": "2025-10-17T10:00:00" },
+          { "name": "Class",   "eventId": 234, "start": "2025-10-17T11:00:00", "end": "2025-10-17T15:00:00" }
+        ]
+      }
+    ]
+  };
   $("sched1").value = JSON.stringify(example, null, 2);
   $("sched2").value = JSON.stringify(example, null, 2);
 };
@@ -31,8 +32,8 @@ $("compareBtn").onclick = async () => {
 
   let s1, s2;
   try {
-    s1 = JSON.parse($("sched1").value);
-    s2 = JSON.parse($("sched2").value);
+    s1 = $("sched1").value ? JSON.parse($("sched1").value) : {"schedule":[]};
+    s2 = $("sched2").value ? JSON.parse($("sched2").value) : {"schedule":[]};
   } catch (e) {
     $("status").textContent = "Invalid JSON in one of the textareas.";
     return;
@@ -54,6 +55,10 @@ $("compareBtn").onclick = async () => {
     const data = await r.json();
 
     $("status").textContent = `Matches: ${data.matches.length}`;
+
+    // populate optional raw JSON 
+    const raw = $("rawJson");
+    if (raw) raw.textContent = JSON.stringify(data, null, 2);
 
     if (!data.matches.length) {
       $("results").innerHTML = "<div class='muted'>No common intervals found.</div>";

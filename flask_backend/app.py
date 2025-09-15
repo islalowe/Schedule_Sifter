@@ -1,7 +1,6 @@
 # flask_backend/app.py
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime
-
 from flask_backend.modules.event import Event
 from flask_backend.modules.daily_timetable import DailyTimetable
 from flask_backend.modules.schedule import Schedule
@@ -11,9 +10,9 @@ app = Flask(__name__)
 
 # These are helpers to build domain objects 
 def event_from_json(ev: dict) -> Event:
-    # Your JSON uses: name, eventId, start, end (ISO strings)
+    # JSON uses: name, eventId, start, end (ISO strings)
     return Event(
-        ev.get("name") or ev.get("title") or "Untitled",
+        ev.get("name") or "Untitled",
         ev.get("eventId") or ev.get("id"),
         datetime.fromisoformat(ev["start"]),
         datetime.fromisoformat(ev["end"]),
@@ -49,11 +48,11 @@ def unique_intervals(intervals):
     return out
 
 # ---------- routes ----------
-@app.get("/")               # GET / -> serve the web page
+@app.get("/")               # GET /  (serve the web page)
 def home():
     return render_template("index.html")
 
-@app.post("/compare")       # POST /compare -> accept JSON, return JSON
+@app.post("/compare")       # POST /compare  (accept JSON, return JSON)
 def compare():
     payload = request.get_json(force=True)
 
@@ -72,11 +71,11 @@ def compare():
         "matches": [interval_to_dict(m) for m in matches],
     })
 
+@app.get("/health")
+def health():
+    return {"ok": True}
+
 if __name__ == "__main__":
     # run locally
     app.run(host="127.0.0.1", port=5001, debug=True)
 
-
-@app.get("/health")
-def health():
-    return {"ok": True}

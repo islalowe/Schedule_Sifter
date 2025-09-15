@@ -1,0 +1,6 @@
+{
+    "users": [
+      { "id": "u1", "name": "Sally", "schedule_file": "schedule1.json" },
+      { "id": "u2", "name": "Bob",  "schedule_file": "schedule2.json" }
+    ]
+  }

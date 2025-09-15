@@ -6,27 +6,53 @@
     <title>Schedule Sifter — Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <style>
+      .hidden { display: none; }
+    </style>
   </head>
   <body>
     <h1>Schedule Sifter</h1>
     <p class="muted">Paste JSON for two schedules, set parameters, then compare.</p>
 
-    <div class="grid">
-      <div>
-        <label>Schedule 1 JSON</label>
-        <textarea id="sched1"></textarea>
+    <section id="userInfo">
+      <div class="grid">
+        <div>
+          <label>User 1</label>
+          
+        </div>
+        <div>
+          <label>User 2</label> 
+        </div>
+    </section>
+
+    <!-- schedules panel: hidden by default -->
+    <section id="schedulesPanel" class="hidden">
+      <div class="grid">
+        <div>
+          <label>User 1</label>
+          <label class="muted">Schedule 1 JSON</label>
+          <textarea id="sched1"></textarea>
+        </div>
+        <div>
+          <label>User 2</label>
+          <label class="muted">Schedule 2 JSON</label>
+          <textarea id="sched2"></textarea>
+        </div>
       </div>
-      <div>
-        <label>Schedule 2 JSON</label>
-        <textarea id="sched2"></textarea>
+
+      <!-- optional: raw comparison JSON (hidden with the panel) -->
+      <div id="rawJsonWrap" class="hidden" style="margin-top:1rem;">
+        <label>Comparison JSON (debug)</label>
+        <pre id="rawJson" style="white-space:pre-wrap; border:1px solid #ddd; border-radius:12px; padding:.75rem; background:#fff;"></pre>
       </div>
-    </div>
+    </section>
 
     <div class="controls">
       <label>Number of days to check <input id="minDays" type="number" value="2" min="1"></label>
       <label>Granularity (hours) <input id="granularity" type="number" value="1" min="1"></label>
       <button id="compareBtn">Compare</button>
       <button id="loadExample">Load example</button>
+      <button id="showSchedules">Show User Schedules</button>
     </div>
 
     <div id="status" class="muted"></div>
