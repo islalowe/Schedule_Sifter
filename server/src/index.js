@@ -3,8 +3,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import { connectDb } from './db.js';
-import { env } from './env.js';
+import { connectDb } from './db.js';   // matches the named export
+import env from './env.js';
 import { sessionMw } from './auth/session.js';
 import { passport } from './auth/google.js';
 

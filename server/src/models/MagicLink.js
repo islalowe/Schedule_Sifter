@@ -5,11 +5,12 @@ const MagicLinkSchema = new Schema({
   tokenHash: { type: String, required: true, index: true, unique: true },
   roomId: { type: Schema.Types.ObjectId, ref: 'rooms' },
   userId: { type: Schema.Types.ObjectId, ref: 'users' },
-  expiresAt: { type: Date, required: true, index: true },
+  expiresAt: { type: Date, required: true }, // <-- remove "index: true" here
   used: { type: Boolean, default: false, index: true },
   createdAt: { type: Date, default: () => new Date() }
 });
 
+// a single TTL index
 MagicLinkSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const MagicLink = model('magic_links', MagicLinkSchema);
