@@ -1,0 +1,16 @@
+# Ignore environment files
+.env
+server/.env
+flask_backend/.env
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# macOS
+.DS_Store
