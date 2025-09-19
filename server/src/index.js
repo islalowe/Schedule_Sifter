@@ -33,10 +33,8 @@ const __dirname = path.dirname(__filename);
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Serve /client from project root: /Schedule_Sifter/client
-  const clientDir = path.join(__dirname, '..', '..', 'client');
-  // console.log('Serving client from:', clientDir);
-  app.use(express.static(clientDir));
+  // Serve /client as static files (simple HTML/CSS/JS UI)
+  app.use(express.static(path.join(__dirname, '..', 'client')));
   app.get('/', (_req, res) => {
     res.sendFile(path.join(clientDir, 'index.html'));
   });
@@ -60,3 +58,21 @@ const __dirname = path.dirname(__filename);
     console.log(`API running on http://localhost:${env.port}`);
   });
 })();
+
+const server = app.listen(env.port, () => {
+    console.log(`API running on http://localhost:${env.port}`);
+  });
+  
+  // graceful shutdown so nodemon can restart without EADDRINUSE
+  function shutdown(sig) {
+    console.log(`\n${sig} received, shutting down...`);
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0);
+    });
+    // safety: if it hangs
+    setTimeout(() => process.exit(0), 2000).unref();
+  }
+  
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
