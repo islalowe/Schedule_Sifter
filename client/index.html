@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Schedule Sifter</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Schedule Sifter</h1>
+    <nav>
+      <button id="btnMe">Who am I?</button>
+      <a id="btnLogin" href="/auth/google">Sign in with Google</a>
+      <button id="btnLogout">Log out</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Create Room</h2>
+      <input id="roomName" placeholder="Room name" />
+      <button id="btnCreateRoom">Create</button>
+      <div id="roomInfo"></div>
+    </section>
+
+    <section class="card">
+      <h2>Invite via QR</h2>
+      <button id="btnShowQR" disabled>Show QR</button>
+      <div><img id="qr" alt="QR will appear here" /></div>
+    </section>
+
+    <section class="card">
+      <h2>My Schedule (quick demo)</h2>
+      <label>Timezone
+        <input id="tz" value="America/Los_Angeles" />
+      </label>
+      <label>Start (ISO)
+        <input id="startIso" placeholder="2025-09-20T09:00:00-07:00" />
+      </label>
+      <label>End (ISO)
+        <input id="endIso" placeholder="2025-09-20T12:00:00-07:00" />
+      </label>
+      <button id="btnSaveSchedule">Save Default</button>
+      <div id="scheduleMsg"></div>
+    </section>
+
+    <section class="card">
+      <h2>Compare</h2>
+      <button id="btnCompare" disabled>Compare Room Members</button>
+      <pre id="compareOut"></pre>
+    </section>
+  </main>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
