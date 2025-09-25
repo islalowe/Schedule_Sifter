@@ -1,7 +1,0 @@
-{
-    "watch": ["src"],
-    "ext": "js",
-    "ignore": ["../client/**", ".env", "node_modules/**"],
-    "delay": "200ms"
-  }
-  
