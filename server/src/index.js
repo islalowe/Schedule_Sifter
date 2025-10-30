@@ -4,14 +4,14 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import { connectDb } from './db.js';
-import env from './env.js';
+import env from '../../archive/env.js';
 import { sessionMw } from './auth/session.js';
 import { passport } from './auth/google.js';
 
 import authRoutes from './routes/auth.js';
-import roomsRoutes from './routes/rooms.js';
+//import roomsRoutes from './routes/rooms.js';
 import schedulesRoutes from './routes/schedules.js';
-import joinRoutes from './routes/join.js';
+//import joinRoutes from './routes/join.js';
 
 import path from 'path';
 import { fileURLToPath } from 'url';

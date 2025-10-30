@@ -6,7 +6,7 @@ const UserSchema = new Schema(
     email:    { type: String, unique: true, index: true, required: true },
     name:     { type: String, index: true },
     picture:  String,
-    timezone: { type: String, default: 'America/Los_Angeles' }, 
+    tz: { type: String, default: 'America/Los_Angeles' }, 
   },
   { timestamps: true } // Mongoose will maintain createdAt/updatedAt
 );

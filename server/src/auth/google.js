@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { env } from '../env.js';
+import { env } from '../../../archive/env.js';
 import { User } from '../models/User.js';
 
 passport.serializeUser((user, done) => done(null, user._id.toString()));

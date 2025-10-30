@@ -9,3 +9,7 @@ export async function compareRoom(roomId, memberIds) {
   );
   return data;
 }
+
+
+
+//todo this needs to be refactored to not use rooms

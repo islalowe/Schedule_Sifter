@@ -2,55 +2,87 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Schedule Sifter</title>
+  <title>Schedule Sifter</title> <!-- tab title (keep this) -->
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
   <header>
-    <h1>Schedule Sifter</h1>
+    <h1>Schedule Sifter</h1> <!-- visible page heading -->
     <nav>
       <button id="btnMe">Who am I?</button>
       <a id="btnLogin" href="/auth/google">Sign in with Google</a>
-      <button id="btnLogout">Log out</button>
+      <button id="btnLogout" class="hidden">Log out</button>
     </nav>
   </header>
 
   <main>
-    <section class="card">
-      <h2>Create Room</h2>
-      <input id="roomName" placeholder="Room name" />
-      <button id="btnCreateRoom">Create</button>
-      <div id="roomInfo"></div>
+    <section id="guestView" class="card">
+      <p>Please sign in to use Schedule Sifter.</p>
     </section>
 
-    <section class="card">
-      <h2>Invite via QR</h2>
-      <button id="btnShowQR" disabled>Show QR</button>
-      <div><img id="qr" alt="QR will appear here" /></div>
-    </section>
+    <div id="app" class="hidden">
+      <!-- All this requires login -->
+       <!-- Todo: simplifying, add in after scehdules can be compared from user profiles w/ database-->
+      <!-- <section class="card">
+        <h2>Create Room</h2>
+        <input id="roomName" placeholder="Room name" />
+        <button id="btnCreateRoom">Create</button>
+        <div id="roomInfo"></div>
+      </section> -->
+      
+      <!-- <section class="card">
+        <h2>Invite via QR</h2>
+        <button id="btnShowQR" disabled>Show QR</button>
+        <div><img id="qr" alt="QR will appear here" /></div>
+      </section> -->
+      <section class="card">
+        <h2>My Schedule (quick demo)</h2>
+        <label>Timezone
+          <input id="tz" value="America/Los_Angeles" />
+        </label>
+        <label>Start (ISO)
+          <input id="startIso" placeholder="2025-09-20T09:00:00-07:00" />
+        </label>
+        <label>End (ISO)
+          <input id="endIso" placeholder="2025-09-20T12:00:00-07:00" />
+        </label>
+        <button id="btnSaveSchedule">Save Default</button>
+        <div id="scheduleMsg"></div>
+      </section>
+      <section class="card">
+        <h2>Compare</h2>
+        <button id="btnCompare" disabled>Compare Room Members</button>
+        <pre id="compareOut"></pre>
+      </section>
+  
+      <section class="card">
+        <h2>My Schedules</h2>
+        <div id="mySchedules"></div>
+        <button id="btnLoadMySchedules">Refresh</button>
+      </section>
+      <!-- Todo: simplifying, add in after scehdules can be compared from user profiles w/ database-->
+      <!-- <section class="card">
+        <h2>Room Schedules</h2>
+        <input id="roomIdForView" placeholder="Room ID" />
+        <button id="btnLoadRoomSchedules">Load Room Schedules</button>
+        <div id="roomSchedules"></div>
+      </section> -->
 
-    <section class="card">
-      <h2>My Schedule (quick demo)</h2>
-      <label>Timezone
-        <input id="tz" value="America/Los_Angeles" />
-      </label>
-      <label>Start (ISO)
-        <input id="startIso" placeholder="2025-09-20T09:00:00-07:00" />
-      </label>
-      <label>End (ISO)
-        <input id="endIso" placeholder="2025-09-20T12:00:00-07:00" />
-      </label>
-      <button id="btnSaveSchedule">Save Default</button>
-      <div id="scheduleMsg"></div>
-    </section>
-
-    <section class="card">
-      <h2>Compare</h2>
-      <button id="btnCompare" disabled>Compare Room Members</button>
-      <pre id="compareOut"></pre>
-    </section>
+    </div>
   </main>
 
   <script src="/app.js" type="module"></script>
 </body>
 </html>
+
+
+    
+
+    
+
+   
+
+    
+    
+   
+

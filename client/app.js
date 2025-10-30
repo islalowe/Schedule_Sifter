@@ -1,6 +1,38 @@
 const el = (id) => document.getElementById(id);
 
-let currentRoomId = null;
+let currentRoomId = null;    // should not always be null
+
+
+/* This section handles putting a logi gate in front of all functionality */
+async function getMe() {
+  const res = await fetch('/api/auth/me', { credentials: 'include' });
+  if (!res.ok) return null;
+  return res.json();
+}
+function setAuthedUI(user) {
+  // Toggle nav buttons
+  document.getElementById('btnLogin')?.classList.add('hidden');
+  document.getElementById('btnLogout')?.classList.remove('hidden');
+  // Optional: show name/pic somewhere
+  // document.querySelector('#welcome')?.textContent = user.name;
+}
+window.addEventListener('DOMContentLoaded', async () => {
+  const me = await getMe();
+  if (me) setAuthedUI(me);
+  else setGuestUI();
+  // Wire “Who am I?” for convenience
+  document.getElementById('btnMe')?.addEventListener('click', async () => {
+    const user = await getMe();
+    if (!user) return alert('Not logged in');
+    alert(`${user.name} <${user.email}>`);
+  });
+  // Logout
+  document.getElementById('btnLogout')?.addEventListener('click', async () => {
+    await fetch('/auth/logout', { method: 'POST', credentials: 'include' });
+    location.reload();
+  });
+});
+
 
 // Helper for JSON fetch with cookies
 async function api(path, options = {}) {
@@ -79,3 +111,46 @@ el('btnCompare').onclick = async () => {
     el('compareOut').textContent = JSON.stringify(data, null, 2);
   } catch (e) { el('compareOut').textContent = e.message; }
 };
+
+
+
+async function fetchMySchedules() {
+  const res = await fetch('/api/schedules/me', { credentials: 'include' });
+  const data = await res.json();
+  renderSchedules('#mySchedules', data);
+}
+
+async function fetchRoomSchedules(roomId) {
+  const res = await fetch(`/api/schedules/room/${roomId}`, { credentials: 'include' });
+  const data = await res.json();
+  renderSchedules('#roomSchedules', data);
+}
+
+function renderSchedules(containerSelector, schedules) {
+  const el = document.querySelector(containerSelector);
+  if (!el) return;
+  el.innerHTML = schedules.map(s => `
+    <div class="card">
+      <h3>${s.name ?? s.type} <small>(${s.tz})</small></h3>
+      <p><em>Updated:</em> ${new Date(s.updatedAt || s.createdAt).toLocaleString()}</p>
+      <table style="width:100%; border-collapse: collapse">
+        <thead>
+          <tr>
+            <th style="text-align:left; border-bottom:1px solid #ddd;">Start</th>
+            <th style="text-align:left; border-bottom:1px solid #ddd;">End</th>
+            <th style="text-align:left; border-bottom:1px solid #ddd;">Label</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${s.intervals.map(iv => `
+            <tr>
+              <td>${new Date(iv.start).toLocaleString(undefined, { timeZone: s.tz })}</td>
+              <td>${new Date(iv.end).toLocaleString(undefined, { timeZone: s.tz })}</td>
+              <td>${iv.label || 'Busy'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `).join('');
+}

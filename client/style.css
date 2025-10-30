@@ -38,3 +38,5 @@ button:disabled {
 }
 img { max-width: 240px; }
 pre { white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 8px; }
+/*.hidden { display: none; }        --> uncomment this when the login works, and nothing will be visible withput a successful login
+

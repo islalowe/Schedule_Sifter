@@ -1,10 +1,10 @@
 # flask_backend/app.py
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime
-from flask_backend.modules.event import Event
-from flask_backend.modules.daily_timetable import DailyTimetable
-from flask_backend.modules.schedule import Schedule
-from flask_backend.modules.comparer import Comparer
+from .modules.event import Event
+from .modules.daily_timetable import DailyTimetable
+from .modules.schedule import Schedule
+from .modules.comparer import Comparer
 
 app = Flask(__name__)
 
