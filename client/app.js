@@ -66,24 +66,27 @@ el('btnLogout').onclick = async () => {
 };
 
 // Rooms
-el('btnCreateRoom').onclick = async () => {
-  try {
-    const name = el('roomName').value || 'New Room';
-    const room = await api('/rooms', { method: 'POST', body: JSON.stringify({ name }) });
-    currentRoomId = room._id;
-    el('roomInfo').textContent = `Room created: ${room._id}`;
-    el('btnShowQR').disabled = false;
-    el('btnCompare').disabled = false;
-  } catch (e) { alert(e.message); }
-};
+// Todo simplifying, add in after scehdules can be compared from user profiles w/ database
+// el('btnCreateRoom').onclick = async () => {
+//   try {
+//     const name = el('roomName').value || 'New Room';
+//     const room = await api('/rooms', { method: 'POST', body: JSON.stringify({ name }) });
+//     currentRoomId = room._id;
+//     el('roomInfo').textContent = `Room created: ${room._id}`;
+//     el('btnShowQR').disabled = false;
+//     el('btnCompare').disabled = false;
+//   } catch (e) { alert(e.message); }
+// };
 
-el('btnShowQR').onclick = async () => {
-  if (!currentRoomId) return;
-  try {
-    const { qrDataUrl } = await api(`/rooms/${currentRoomId}/qr`, { method: 'POST' });
-    el('qr').src = qrDataUrl;
-  } catch (e) { alert(e.message); }
-};
+//QR code
+// Todo simplifying, add in after scehdules can be compared from user profiles w/ database
+// el('btnShowQR').onclick = async () => {
+//   if (!currentRoomId) return;
+//   try {
+//     const { qrDataUrl } = await api(`/rooms/${currentRoomId}/qr`, { method: 'POST' });
+//     el('qr').src = qrDataUrl;
+//   } catch (e) { alert(e.message); }
+// };
 
 // Schedule
 el('btnSaveSchedule').onclick = async () => {

@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { Schedule } from '../models/Schedule.js';
 import { compareRoom } from '../../../archive/services/compare.js';
-import { Room } from '../models/Room.js';
+import { Room } from '../../../archive/services/Room.js';
 import { requireAuth } from './_requireAuth.js';
 
 // can use .datetime() 
