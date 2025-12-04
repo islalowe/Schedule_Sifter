@@ -120,8 +120,6 @@ class Comparer:
 
 
 
-
-
     # Helper method to be able to compare time of events to hour increments in a 24 hour day.
     def convert_to_date_time(self, d: date, t: time) -> datetime:
         return datetime.combine(d, t)

@@ -11,6 +11,9 @@ npm-debug.log*
 __pycache__/
 *.pyc
 .venv/
+venv/
+flask_backend/venv/
 
 # macOS
 .DS_Store
+
