@@ -1,0 +1,40 @@
+
+#TODO: work through the template, don't push yet. 
+  # parts: name / on / jobs / steps
+  # name: label for humans
+  # on: define the trigger
+  # job (1 - name, 2- runner, 3 - steps)
+
+name: Config File to Deploy to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+      # because it is just me but this would change with multiple branches being pulled & pushed
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4   # this clones the repo
+
+    - name: Set up Node
+      uses: actions/setup-node@v4   # this installs node
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install  # this installs the dependencies, same as in terminal
+
+    - name: Build 
+      run: npm run build --if-present
+
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: "schedule-sifter"
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+        package: .
